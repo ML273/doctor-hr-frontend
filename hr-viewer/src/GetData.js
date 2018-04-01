@@ -103,8 +103,8 @@ class GetData extends React.Component {
   }
 }
 
-GetData.SimpleTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+//GetData.SimpleTable.propTypes = {
+ // classes: PropTypes.object.isRequired,
+//};
 
 export default GetData;
