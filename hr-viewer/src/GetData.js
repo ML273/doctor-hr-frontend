@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import { withStyles } from 'material-ui/styles';
+//import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 
 var stylish = {
@@ -104,7 +104,7 @@ class GetData extends React.Component {
 }
 
 //GetData.SimpleTable.propTypes = {
- // classes: PropTypes.object.isRequired,
+//classes: PropTypes.object.isRequired,
 //};
 
 export default GetData;
