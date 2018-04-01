@@ -3,7 +3,7 @@ import axios from 'axios';
 //import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-//import { withStyles } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 
 var stylish = {
@@ -83,7 +83,7 @@ class GetData extends React.Component {
     return (
         <div>
             <Button variant="raised" onClick={this.fetch}>
-                Get Data
+                Display Data
             </Button>
 
             <div style={stylish.dataStyle}>
@@ -97,6 +97,9 @@ class GetData extends React.Component {
             </div>
 
 //table
+            <div>
+                {withStyles(styles)(this.SimpleTable)}
+            </div>
         </div>
 
     )
