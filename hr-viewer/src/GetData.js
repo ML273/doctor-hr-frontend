@@ -40,10 +40,19 @@ class GetData extends React.Component {
       "data": ["Nothing here"],
     };
   }
-
+  
+  retrieveText = (event) => {
+    this.setState({"user_input": event.target.value});
+  }
+  
+  onButtonClick = (event) => {
+    console.log(this.state.user_input); //log current text content
+  }
 
   fetch = () => {
-    axios.get("http://vcm-3502.vm.duke.edu:5000/api/heart_rate/ml273@duke.edu").then( (response) => {
+    var url_base = "http://vcm-3502.vm.duke.edu:5000/api/heart_rate/ml273@duke.edu" 
+    var total_url = url_base.concat(this.state.user_input)
+    axios.get(total_url).then( (response) => {
       // will need to edit this to receive some kind of input from text field
       console.log(response);
       console.log(response.status);
