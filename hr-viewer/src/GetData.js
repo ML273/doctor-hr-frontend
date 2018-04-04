@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import Button from 'material-ui/Button';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import { withStyles } from 'material-ui/styles';
+import Table, { TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
 
 //Note to self: you need to adapt textfield code into this file so that you can directly take the input from the text field and then use it for the URL!
 
@@ -13,6 +13,14 @@ var stylish = {
     "marginTop": "20px",
     "marginBottom": "20px",
     "color": "black",
+  }
+}
+
+var errorStyle = {
+  "errorProp": {
+    "marginTop": "20px",
+    "marginBottom": "20px",
+    "color": "red",
   }
 }
 
@@ -34,17 +42,27 @@ class GetData extends React.Component {
     super();
     this.state = {
       "user_input": "",
+      "errorText": "",
       "email": "No email yet.",
       "heart_rate": ["No heart rate yet."],
       "heart_rate_times": ["No heart rate times yet."],
       "data": ["Nothing here"],
     };
   }
-
-
+  
+  retrieveText = (event) => {
+    this.setState({"user_input": event.target.value})
+    if (event.target.value.includes("@")) {
+      this.setState({"errorText": ""})
+    } else {
+      this.setState({"errorText": "Invalid email: example@address"})
+    }
+  }
+  
   fetch = () => {
-    axios.get("http://vcm-3502.vm.duke.edu:5000/api/heart_rate/ml273@duke.edu").then( (response) => {
-      // will need to edit this to receive some kind of input from text field
+    var url_base = "http://vcm-3502.vm.duke.edu:5000/api/heart_rate/" 
+    var total_url = url_base.concat(this.state.user_input)
+    axios.get(total_url).then( (response) => {
       console.log(response);
       console.log(response.status);
       this.setState({
@@ -52,50 +70,56 @@ class GetData extends React.Component {
         "heart_rate": response.data.heart_rate,
         "heart_rate_times": response.data.heart_rate_times,
         "data": response.data.children});
+        console.log(this.state.user_input); //log current text content
       })
   }
 
   render() {
+        var hrViewData = [];
+        for (var i = 0; i < this.state.heart_rate.length; i++) {
+            hrViewData.push(
+                <TableRow>
+                    <TableCell> {this.state.heart_rate[i]} </TableCell>
+                    <TableCell> {this.state.heart_rate_times[i]} </TableCell> 
+                </TableRow>
+            );
+        }
+
     return (
         <div>
-            <Button variant="raised" onClick={this.fetch}>
-                Display Data
-            </Button>
-
             <div style={stylish.dataStyle}>
                 {this.state.data}
             </div>
             <div style={stylish.dataStyle}>
-                {this.state.email}
+                Last email used: {this.state.email}
             </div>
-            <div style={stylish.dataStyle}>
-                {this.state.heart_rate[0]} //how to display in table?
+            <div style={errorStyle.errorProp}>
+                {this.state.errorText}
             </div>
-            <div>
-              //edit: trying to create table  This should be in render
-                    <Paper className={classes.root}>
-                      <Table className={classes.table}>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell numeric>Heart Rate (bpm)</TableCell>
-                            <TableCell numeric>Time</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          return (
-                            <TableRow>
-                            <TableCell numeric>{this.data.heart_rate}</TableCell>
-                            <TableCell numeric>{this.data.heart_rate_times}</TableCell>
-                            </TableRow>
-                          );
-                        </TableBody>
-                      </Table>
-                    </Paper>
-                  //end edit
-                  )}
-              </div>
-          </div>
+            <TextField
+                value={this.state.user_input}
+                onChange={this.retrieveText}
+            />
 
+            <Button variant="raised" onClick={this.fetch}>
+                Give Me Data
+                <div>
+                        <Paper className={styles.root}>
+                          <Table className={styles.table}>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell numeric>Heart Rate (bpm)</TableCell>
+                                <TableCell numeric>Time</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                    {hrViewData}
+                            </TableBody>
+                          </Table>
+                        </Paper>
+                  </div>
+            </Button>
+          </div>
       )
     }
   }
