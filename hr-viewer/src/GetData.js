@@ -13,6 +13,14 @@ var stylish = {
   }
 }
 
+var errorStyle = {
+  "errorProp": {
+    "marginTop": "20px",
+    "marginBottom": "20px",
+    "color": "red",
+  }
+}
+
 const styles = theme => ({
   // from materials.ui example, adjusted
   root: {
@@ -59,11 +67,21 @@ class GetData extends React.Component {
         "heart_rate": response.data.heart_rate,
         "heart_rate_times": response.data.heart_rate_times,
         "data": response.data.children});
-      console.log(this.state.user_input); //log current text content
+        console.log(this.state.user_input); //log current text content
       })
   }
 
   render() {
+        var hrViewData = [];
+        for (var i = 0; i < this.state.heart_rate.length; i++) {
+            hrViewData.push(
+                <TableRow>
+                    <TableCell> {this.state.heart_rate[i]} </TableCell>
+                    <TableCell> {this.state.heart_rate_times[i]} </TableCell> 
+                </TableRow>
+            );
+        }
+
     return (
         <div>
             <div style={stylish.dataStyle}>
@@ -75,7 +93,7 @@ class GetData extends React.Component {
             <div style={stylish.dataStyle}>
                 {this.state.email}
             </div>
-            <div style={stylish.dataStyle}>
+            <div style={errorStyle.errorProp}>
                 {this.state.errorText}
             </div>
             <div style={stylish.dataStyle}>
@@ -98,14 +116,7 @@ class GetData extends React.Component {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {this.state.data.map((sample, ind) => (
-                                  <TableRow>
-                                    <TableRowColumn>{sample.heart_rate_times}</TableRowColumn>
-                                    <TableRowColumn>{sample.heart_rate}</TableRowColumn>
-                                  // <TableCell numeric>{this.state.heart_rate}</TableCell>
-                                  // <TableCell numeric>{this.state.heart_rate_times}</TableCell>
-                                  </TableRow>
-                              ))}
+                                    {hrViewData}
                             </TableBody>
                           </Table>
                         </Paper>
