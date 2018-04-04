@@ -63,7 +63,6 @@ class GetData extends React.Component {
             <Button variant="raised" onClick={this.fetch}>
                 Display Data
                 <div>
-                  //edit: trying to create table  This should be in render
                         <Paper className={styles.root}>
                           <Table className={styles.table}>
                             <TableHead>
@@ -74,13 +73,12 @@ class GetData extends React.Component {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                <TableCell numeric>{this.data.heart_rate}</TableCell>
-                                <TableCell numeric>{this.data.heart_rate_times}</TableCell>
+                                <TableCell numeric>{this.state.heart_rate}</TableCell>
+                                <TableCell numeric>{this.state.heart_rate_times}</TableCell>
                                 </TableRow>
                             </TableBody>
                           </Table>
                         </Paper>
-                      //end edit 
                   </div>
             </Button>
 
