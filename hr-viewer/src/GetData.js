@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Button from 'material-ui/Button';
-import Table, { TableBody, TableCell, TableHead, TableRow, TableRowColumn } from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 
@@ -87,17 +87,11 @@ class GetData extends React.Component {
             <div style={stylish.dataStyle}>
                 {this.state.data}
             </div>
-            <div>
-                {this.state.heart_rate.length}
-            </div>
             <div style={stylish.dataStyle}>
-                {this.state.email}
+                Last email used: {this.state.email}
             </div>
             <div style={errorStyle.errorProp}>
                 {this.state.errorText}
-            </div>
-            <div style={stylish.dataStyle}>
-                {this.state.heart_rate[0]} 
             </div>
             <TextField
                 value={this.state.user_input}
