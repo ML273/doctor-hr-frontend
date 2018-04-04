@@ -5,9 +5,6 @@ import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Ta
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 
-//Note to self: you need to adapt textfield code into this file so that you can directly take the input from the text field and then use it for the URL!
-
-
 var stylish = {
   "dataStyle": {
     "marginTop": "20px",
@@ -45,15 +42,10 @@ class GetData extends React.Component {
     this.setState({"user_input": event.target.value});
   }
   
- //onButtonClick = (event) => {
- //  console.log(this.state.user_input); //log current text content
- // }
-
   fetch = () => {
-    var url_base = "http://vcm-3502.vm.duke.edu:5000/api/heart_rate/ml273@duke.edu" 
+    var url_base = "http://vcm-3502.vm.duke.edu:5000/api/heart_rate/" 
     var total_url = url_base.concat(this.state.user_input)
     axios.get(total_url).then( (response) => {
-      // will need to edit this to receive some kind of input from text field
       console.log(response);
       console.log(response.status);
       this.setState({
@@ -70,6 +62,26 @@ class GetData extends React.Component {
         <div>
             <Button variant="raised" onClick={this.fetch}>
                 Display Data
+                <div>
+                  //edit: trying to create table  This should be in render
+                        <Paper className={styles.root}>
+                          <Table className={styles.table}>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell numeric>Heart Rate (bpm)</TableCell>
+                                <TableCell numeric>Time</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                <TableCell numeric>{this.data.heart_rate}</TableCell>
+                                <TableCell numeric>{this.data.heart_rate_times}</TableCell>
+                                </TableRow>
+                            </TableBody>
+                          </Table>
+                        </Paper>
+                      //end edit 
+                  </div>
             </Button>
 
             <div style={stylish.dataStyle}>
@@ -84,29 +96,7 @@ class GetData extends React.Component {
             <TextField
                 value={this.state.user_input}
                 onChange={this.retrieveText}/>
-            <div>
-              //edit: trying to create table  This should be in render
-                    <Paper className={styles.root}>
-                      <Table className={styles.table}>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell numeric>Heart Rate (bpm)</TableCell>
-                            <TableCell numeric>Time</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                            <TableCell numeric>{this.data.heart_rate}</TableCell>
-                            <TableCell numeric>{this.data.heart_rate_times}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                      </Table>
-                    </Paper>
-                  //end edit
-                  )}
-              </div>
           </div>
-
       )
     }
   }
