@@ -5,6 +5,9 @@ import Table, { TableBody, TableCell, TableHead, TableRow} from 'material-ui/Tab
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 
+//Note to self: you need to adapt textfield code into this file so that you can directly take the input from the text field and then use it for the URL!
+
+
 var stylish = {
   "dataStyle": {
     "marginTop": "20px",

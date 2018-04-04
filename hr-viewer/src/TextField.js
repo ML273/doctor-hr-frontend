@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-class TextFieldExample extends React.Component {
+class Text extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -34,4 +34,4 @@ class TextFieldExample extends React.Component {
     }
 }
 
-export default TextFieldExample;
+export default Text;
