@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Button from 'material-ui/Button';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow, TableRowColumn } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 
@@ -31,6 +31,7 @@ class GetData extends React.Component {
     super();
     this.state = {
       "user_input": "",
+      "errorText": "",
       "email": "No email yet.",
       "heart_rate": ["No heart rate yet."],
       "heart_rate_times": ["No heart rate times yet."],
@@ -39,7 +40,12 @@ class GetData extends React.Component {
   }
   
   retrieveText = (event) => {
-    this.setState({"user_input": event.target.value});
+    this.setState({"user_input": event.target.value})
+    if (event.target.value.includes("@")) {
+      this.setState({"errorText": ""})
+    } else {
+      this.setState({"errorText": "Invalid email: example@address"})
+    }
   }
   
   fetch = () => {
@@ -60,8 +66,28 @@ class GetData extends React.Component {
   render() {
     return (
         <div>
+            <div style={stylish.dataStyle}>
+                {this.state.data}
+            </div>
+            <div>
+                {this.state.heart_rate.length}
+            </div>
+            <div style={stylish.dataStyle}>
+                {this.state.email}
+            </div>
+            <div style={stylish.dataStyle}>
+                {this.state.errorText}
+            </div>
+            <div style={stylish.dataStyle}>
+                {this.state.heart_rate[0]} 
+            </div>
+            <TextField
+                value={this.state.user_input}
+                onChange={this.retrieveText}
+            />
+
             <Button variant="raised" onClick={this.fetch}>
-                Display Data
+                Give Me Data
                 <div>
                         <Paper className={styles.root}>
                           <Table className={styles.table}>
@@ -72,28 +98,19 @@ class GetData extends React.Component {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                                <TableRow>
-                                <TableCell numeric>{this.state.heart_rate}</TableCell>
-                                <TableCell numeric>{this.state.heart_rate_times}</TableCell>
-                                </TableRow>
+                              {this.state.data.map((sample, ind) => (
+                                  <TableRow>
+                                    <TableRowColumn>{sample.heart_rate_times}</TableRowColumn>
+                                    <TableRowColumn>{sample.heart_rate}</TableRowColumn>
+                                  // <TableCell numeric>{this.state.heart_rate}</TableCell>
+                                  // <TableCell numeric>{this.state.heart_rate_times}</TableCell>
+                                  </TableRow>
+                              ))}
                             </TableBody>
                           </Table>
                         </Paper>
                   </div>
             </Button>
-
-            <div style={stylish.dataStyle}>
-                {this.state.data}
-            </div>
-            <div style={stylish.dataStyle}>
-                {this.state.email}
-            </div>
-            <div style={stylish.dataStyle}>
-                {this.state.heart_rate[0]} 
-            </div>
-            <TextField
-                value={this.state.user_input}
-                onChange={this.retrieveText}/>
           </div>
       )
     }
