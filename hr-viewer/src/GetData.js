@@ -10,6 +10,11 @@ var stylish = {
     "marginTop": "20px",
     "marginBottom": "20px",
     "color": "black",
+  },
+  "text": {
+    "marginTop": "20px",
+    "marginBottom": "20px",
+    "backgroundColor": "#E8E8E8",
   }
 }
 
@@ -24,7 +29,7 @@ var errorStyle = {
 const styles = theme => ({
   // from materials.ui example, adjusted
   root: {
-    width: '90%',
+    width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
   },
@@ -49,7 +54,10 @@ class GetData extends React.Component {
   
   retrieveText = (event) => {
     this.setState({"user_input": event.target.value})
-    if (event.target.value.includes("@")) {
+    if (event.target.value.includes(" ")) {
+      this.setState({"errorText": "Invalid email: No spaces are allowed!"})
+        //don't forget to delete the minor insult. Clients would not be happy. 
+    } else if (event.target.value.includes("@")) {
       this.setState({"errorText": ""})
     } else {
       this.setState({"errorText": "Invalid email: example@address"})
@@ -93,29 +101,31 @@ class GetData extends React.Component {
             <div style={errorStyle.errorProp}>
                 {this.state.errorText}
             </div>
-            <TextField
-                value={this.state.user_input}
-                onChange={this.retrieveText}
-            />
-
-            <Button variant="raised" onClick={this.fetch}>
+            <div style={stylish.text}>
+              Enter Email: 
+              <TextField
+                  value={this.state.user_input}
+                  onChange={this.retrieveText}
+              />
+            </div>
+            <Button color="primary" variant="raised" onClick={this.fetch}>
                 Give Me Data
-                <div>
-                        <Paper className={styles.root}>
-                          <Table className={styles.table}>
-                            <TableHead>
-                              <TableRow>
-                                <TableCell numeric>Heart Rate (bpm)</TableCell>
-                                <TableCell numeric>Time</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {hrViewData}
-                            </TableBody>
-                          </Table>
-                        </Paper>
-                  </div>
             </Button>
+            <div>
+                    <Paper className={styles.root}>
+                      <Table className={styles.table}>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell numeric>Heart Rate (bpm)</TableCell>
+                            <TableCell numeric>Time</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {hrViewData}
+                        </TableBody>
+                      </Table>
+                    </Paper>
+              </div>
           </div>
       )
     }
