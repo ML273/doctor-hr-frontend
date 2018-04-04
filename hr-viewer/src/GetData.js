@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import Button from 'material-ui/Button';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
 
 //Note to self: you need to adapt textfield code into this file so that you can directly take the input from the text field and then use it for the URL!
 
@@ -45,9 +45,9 @@ class GetData extends React.Component {
     this.setState({"user_input": event.target.value});
   }
   
-  onButtonClick = (event) => {
-    console.log(this.state.user_input); //log current text content
-  }
+ //onButtonClick = (event) => {
+ //  console.log(this.state.user_input); //log current text content
+ // }
 
   fetch = () => {
     var url_base = "http://vcm-3502.vm.duke.edu:5000/api/heart_rate/ml273@duke.edu" 
@@ -61,6 +61,7 @@ class GetData extends React.Component {
         "heart_rate": response.data.heart_rate,
         "heart_rate_times": response.data.heart_rate_times,
         "data": response.data.children});
+      console.log(this.state.user_input); //log current text content
       })
   }
 
@@ -78,12 +79,15 @@ class GetData extends React.Component {
                 {this.state.email}
             </div>
             <div style={stylish.dataStyle}>
-                {this.state.heart_rate[0]} //how to display in table?
+                {this.state.heart_rate[0]} 
             </div>
+            <TextField
+                value={this.state.user_input}
+                onChange={this.retrieveText}/>
             <div>
               //edit: trying to create table  This should be in render
-                    <Paper className={classes.root}>
-                      <Table className={classes.table}>
+                    <Paper className={styles.root}>
+                      <Table className={styles.table}>
                         <TableHead>
                           <TableRow>
                             <TableCell numeric>Heart Rate (bpm)</TableCell>
@@ -91,12 +95,10 @@ class GetData extends React.Component {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          return (
                             <TableRow>
                             <TableCell numeric>{this.data.heart_rate}</TableCell>
                             <TableCell numeric>{this.data.heart_rate_times}</TableCell>
                             </TableRow>
-                          );
                         </TableBody>
                       </Table>
                     </Paper>
