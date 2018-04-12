@@ -1,8 +1,9 @@
 # Heart Rate Viewer
 
+Heart Rate Viewer is a rudimentary front end REACT App that makes requests to a Flask web service that communicates with a Mongo database. After saving client data to a database under a user email (that serves as the ID), one can obtain all heart rate and time information in a single table on Heart Rate Viewer by inputting the email and requesting with the button "GET DATA." 
 
+The setup below details how to run the front end app, the web service, and the database. For more information, take BME590: Medical Software Design. 
 
-Brief description of what you built and what it does (1-2 paragraphs)
 
 # Basic Setup
 1. It is recommended to run the web server and database on a virtual machine. If you choose to, then connect to the vcm.
